@@ -1,0 +1,82 @@
+<p class="scene-context"><strong>Kontekst:</strong> Poszukiwany jest wiedźmin do rozwiązania zagadki śmierci mieszkańca wioski oraz zniknięć przedmiotów. Na miejscu badamy denata z poszarpanym brzuchem. Drgający wiedźmiński medalion wskazuje na siły magiczne. Po krótkich poszukiwaniach, znajdujemy bożątko czające się nieopodal.</p>
+
+<pre class="script">
+// ==========================================
+// WĘZEŁ: NODE_BOZATKO_START
+// ==========================================
+
+GRACZ_01
+[Anim: Kuca, Wyraz twarzy: Przyjazny]
+Cześć mały. Jak ci na imię?
+
+BOZATKO_01
+[Anim: Rozkłada ręce, próbuje się powiększyć. Wyraz twarzy: Zdenerwowany]
+Nie jestem wcale mały! Jestem już bardzo duży. Jestem duży Mieszko.
+
+GRACZ_02
+[Anim: Potakuje głową, Wyraz twarzy: Spokojny]
+No dobrze, duży Mieszko, wiesz coś może o śmierci człowieka z tamtej chaty?
+
+BOZATKO_02
+[Anim: Rysuje dłońmi okrągły brzuch, śmieje się. Wyraz twarzy: Obojętny]
+Może wiem. A, bo co? To nie wolno wiedzieć? Bo ja, na przykład wiem, że to był straszny kradziej. I obżarciuch. I zawsze tak śmiesznie sapał.
+
+GRACZ_03
+[Anim: Krzyżuje ręce na piersi, Wyraz twarzy: Podejrzliwy]
+Kradziej? A mnie się coś wydaje, że to ty kradłeś.
+
+BOZATKO_03
+[Anim: Tupie nogami, zaciska pięści. Wyraz twarzy: Wściekły]
+Nie! Nieprawda. To on był kradziej, nie ja! To on zaczął. To on mi zjadał moje malinki! Chciałem, żeby przestał, ale on ciągle mi je zjadał!
+
+BOZATKO_04
+[Anim: Wzrusza ramionami, Wyraz twarzy: Obojętny]
+To i ja pożyczyłem sobie kilka rzeczy z wioski.
+
+GRACZ_04
+[Anim: Gest dłonią, Wyraz twarzy: Zamyślony]
+Ale nie przestał kraść, prawda? Więc postanowiłeś go za to ukarać. Co zrobiłeś z malinami?
+
+BOZATKO_05
+[Anim: Wyrzuca ręce w górę, śmieje się. Wyraz twarzy: Dumnie]
+Zaczarowałem je. Kiedy ten obżarciuch zebrał pełen koszyk, napchał się nimi i wtedy bum! Malinki wybuchły mu w brzuszku.
+
+[CHOICE_HUB_BOZATKO] // Gracz wybiera jedną z opcji
+
+OPCJA 1: [Atakuj] "Postąpiłeś okrutnie. Nie mogę tego tak zostawić."
+   -> GOTO NODE_BOZATKO_ATTACK
+
+OPCJA 2: [Osuchaj/Ukaraj] "Postąpiłeś okrutnie. Musi cię spotkać za to jakaś kara."
+   -> GOTO NODE_BOZATKO_PUNISH
+
+// ==========================================
+// WĘZEŁ: NODE_BOZATKO_ATTACK
+// ==========================================
+
+[System: Wyłączenie trybu dialogu]
+[System: Odpalenie walki z NPC: Bożątko Mieszko]
+-> END DIALOGUE
+
+// ==========================================
+// WĘZEŁ: NODE_BOZATKO_PUNISH
+// ==========================================
+
+BOZATKO_06
+[Anim: Zadziera głowę, wypina pierś, krzyczy i płacze. Wyraz twarzy: Obrażony]
+A dlaczemu?! To on był kradziej, nie ja! Jesteś niedobry i brzydki! A w ogóle, to się ciebie nie boję!
+
+GRACZ_05
+[Anim: Wskazuje palcem, Wyraz twarzy: Surowy]
+Jeśli jeszcze kiedyś skrzywdzisz człowieka, to powiem całemu światu, żeby palili w domach łopianem. Chcesz tego?
+
+BOZATKO_07
+[Anim: Błaga, składa dłonie, krzywi się i płacze. Wyraz twarzy: Przerażony]
+Oj, nie, nie! Tylko nie to. Łopian fe! Już nie będę, obiecuję! Obiecuję!
+
+GRACZ_06
+[Anim: Macha lekceważąco dłonią, Wyraz twarzy: Łagodny]
+Mam taką nadzieję. Nie psoć już.
+
+[System: Zmiana nastawienia NPC na neutralny. Bożątko ucieka]
+-> END DIALOGUE
+</pre>

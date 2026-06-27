@@ -1,0 +1,96 @@
+<p class="scene-context"><strong>Kontekst:</strong> Przyjęliśmy zlecenie na Harpie terroryzujące okoliczną wieś. Śledzimy je po upuszczonych błyskotkach i piórach. W pewnym momencie ślad się urywa, ale dostrzegamy chłopa.</p>
+
+<pre class="script">
+// ==========================================
+// WĘZEŁ: NODE_CHLOP_START
+// ==========================================
+
+CHŁOP_01
+[Anim: Trzyma butelkę. Kołysze się. Nuci melodię, Wyraz twarzy: Tępy]
+(Nuci pod nosem, ignorując otoczenie)
+
+GRACZ_01
+[Anim: Wskazuje palcem na chłopa, Wyraz twarzy: Mruży oczy]
+Ej, ty! Nie wiesz, że tu grasuje potwór?
+
+CHŁOP_02
+[Anim: Wskazuje na siebie, Wyraz twarzy: Zdezorientowany]
+Tso? P-p-potwór?
+
+GRACZ_02
+[Anim: Zakłada ramiona, Wyraz twarzy: Groźny]
+Tak. Harpia. Widziałeś ją może?
+
+CHŁOP_03
+[Anim: Wydmuchuje powietrze przez nos, Wyraz twarzy: Skoncentrowany]
+Har... tso?
+
+GRACZ_03
+[Anim: Opuszcza ramiona, Wyraz twarzy: Zrezygnowany]
+Harpia. Latający stwór. Widziałeś?
+
+CHŁOP_04
+[Anim: Trzęsie pustym flakonem, Wyraz twarzy: Uśmiecha się]
+A ja tam panie nie wiem. Widzieć, to widzioł, żech butelczyna pusta.
+
+[CHOICE_HUB_01] // Gracz wybiera jedną z opcji
+
+OPCJA 1: [Wręcz butelkę alkoholu]
+   [Condition: Player_HasItem_Vodka == True]
+   -> GOTO NODE_VODKA_HANDED
+
+OPCJA 2: [Groźba] "Wiesz co to lewatywa?!"
+   -> GOTO NODE_THREAT
+
+OPCJA 3: [Zakończ rozmowę] "Bywaj"
+   -> END DIALOGUE
+
+// ==========================================
+// WĘZEŁ: NODE_VODKA_HANDED (Ścieżka łapówki)
+// ==========================================
+
+[System: RemoveItem_Vodka]
+
+CHŁOP_05
+[Anim: Oczy mu się świecą. Zabiera flaszkę i upija łyk, zatacza się. Wyraz twarzy: Zachwycony]
+Ale dobre! Przemko, mości dobrodzieju, do usług.
+
+GRACZ_04
+No to widziałeś tę Harpię?
+
+CHŁOP_06
+[Anim: Czkie, patrzy nieprzytomnie]
+A jak, toto wygląda?
+
+GRACZ_05
+Szerokie skrzydła, ostre pazury, długie kły, wydaje skrzekliwe dźwięki.
+
+CHŁOP_07
+[Anim: Rechocze, wskazuje kierunek ręką, z trudem utrzymuje równowagę. Wyraz twarzy: Rozbawiony]
+To zupełnie jak moja stara! Ale widziałem cosik takiego na niebie. A, o tam poleciało.
+
+[System: Aktualizacja mapy: Dodano znacznik [HARPY_NEST]]
+-> END DIALOGUE
+
+// ==========================================
+// WĘZEŁ: NODE_THREAT (Ścieżka zastraszenia)
+// ==========================================
+
+GRACZ_06
+[Anim: Krok w przód, gest dłonią w stronę butelki. Wyraz twarzy: Bezwzględny]
+Wiesz, co to lewatywa? Jeśli nie, to przyjrzyj się butelce i pomyśl o jednym miejscu, w którym nie powinna się znaleźć.
+
+CHŁOP_08
+[Anim: Przerażony patrzy na flakon i spogląda w dół, łka i czka, składa dłonie jak do modlitwy. Wyraz twarzy: Przerażony]
+Nie! Panie dobrodzieju. Nie róbta mi krzywdy. Pomoga przeca. Jak toto wygląda?
+
+GRACZ_07
+Szerokie skrzydła, ostre pazury, długie kły, wydaje skrzekliwe dźwięki.
+
+CHŁOP_09
+[Anim: Wskazuje kierunek ręką i traci równowagę. Wyraz twarzy: Olśniony]
+To musikiem była ta Harca! A, o tam poleciała!
+
+[System: Aktualizacja mapy: Dodano znacznik [HARPY_NEST]]
+-> END DIALOGUE
+</pre>
