@@ -1,0 +1,154 @@
+<p class="scene-context"><strong>Kontekst:</strong> Siedząc w karczmie, zostajemy wezwani przez naukowca. Przybywamy do laboratorium pełnego wymyślnej aparatury. Naukowiec pogrążony jest pracą nad jakimś niewielkim elementem.</p>
+
+<pre class="script">
+// ==========================================
+// WĘZEŁ: NODE_ELMAR_START
+// ==========================================
+
+GRACZ_01
+[Anim: Wchodzi do pomieszczenia, Staje przed stołem]
+Witaj, Elmarze.
+
+ELMAR_01
+[Anim: Nie odrywa się od pracy, manipuluje przy aparaturze]
+Witaj, &lt;&lt;imię gracza&gt;&gt;.
+
+GRACZ_02
+[Anim: Rozgląda się po laboratorium]
+Wzywałeś. Masz dla mnie jakąś robotę?
+
+ELMAR_02
+[Anim: Wciąż skupiony nad stołem]
+Ależ naturalnie. Nie kłopotałbym cię, gdybym mógł zrobić coś sam.
+
+GRACZ_03
+[Anim: Opiera dłonie na pasie]
+Czego ci trzeba?
+
+[System: Aktywacja FX: Niewielka eksplozja, dym na twarzy Elmara]
+
+ELMAR_03
+[Anim: Odwraca się gwałtownie, wzdycha. Wyraz twarzy: Umorusany sadzą]
+Jak zawsze bezpośredni. Widzisz, ludzie gadają, że pod miastem coś żyje. Że wydaje nocami dziwne odgłosy, coś jakby płacz połączony z kwileniem.
+
+GRACZ_04
+[Anim: Kręci głową z pobłażaniem]
+Ludzie gadają różne głupoty.
+
+ELMAR_04
+[Anim: Uśmiecha się]
+Trudno się nie zgodzić. Jednak jest coś ciekawszego. Podobno słyszą to jedynie mężczyźni i dzieci. Kobiety w ogóle nie reagują. Ale to nie wszystko. Dzieci twierdzą, że siedzi tam jakaś miła pani i tuli je oraz śpiewa do snu.
+
+GRACZ_05
+[Anim: Mruży oczy, Wyraz twarzy: Zaintrygowany]
+Interesujące...
+
+ELMAR_05
+[Anim: Unosi palec wskazujący do góry. Wyraz twarzy: Profesorski]
+Istotnie. Empiryzm poznawczy zawiódł lud w odmęty kanałów. Zarówno wojów, jak i dzieci.
+
+ELMAR_06
+[Anim: Gestykuluje dynamicznie dłońmi]
+Paradoksem tegoż fenomenu jest to, że jedynie ci młodsi zdołali wrócić, a mortalizm tych pierwszych stoi w sprzeczności z absurdyzmem tych drugich. Aprioryzm wyklucza taką możliwość.
+
+GRACZ_06
+[Anim: Rozkłada bezradnie ręce]
+Czyli, apriorycznie mówiąc, mam się taplać w gównie za jakąś babą?
+
+ELMAR_07
+[Anim: Wzdycha, puszcza oczko]
+Och, &lt;&lt;imię gracza&gt;&gt; jak ty potrafisz wszystko spłycić. Wiesz, że sowicie zapłacę.
+
+GRACZ_07
+[Anim: Przytakuje, Wyraz twarzy: Zrezygnowany]
+Niech będzie. Aber płacisz też za pralnię!
+
+[System: Aktualizacja dziennika zadań: Quest [UNDER_CITY_MONSTER] ustawiony na: Active]
+[System: Wyjście z dialogu]
+-> END DIALOGUE
+
+// ==========================================
+// WĘZEŁ: NODE_ELMAR_RETURN (Powrót po wykonaniu zadania)
+// ==========================================
+
+ELMAR_08
+[Anim: Wybiega zza biurka. Wyraz twarzy: Podekscytowany]
+Odnalazłeś tam coś fascynującego? Opowiadaj!
+
+[CHOICE_HUB_ELMAR_RETURN]
+
+OPCJA 1: [Podaj tylko fakty] "Wampira. Katakana."
+   -> GOTO NODE_ELMAR_RESULT_SHORT
+
+OPCJA 2: [Podaj szczegóły śledztwa] "Samicę Katakana. Niezwykły przypadek."
+   [Condition: Player_Investigated_Illusion == TRUE]
+   -> GOTO NODE_ELMAR_RESULT_LONG
+
+// ==========================================
+// WĘZEŁ: NODE_ELMAR_RESULT_SHORT (Ścieżka krótka)
+// ==========================================
+
+ELMAR_09
+[Anim: Wzrusza ramionami. Wyraz twarzy: Zawiedziony]
+I tyle?
+
+GRACZ_08
+Tle. Ubiłem potwora.
+
+ELMAR_10
+[Anim: Otwiera szufladę, wyciąga mieszek. Wyraz twarzy: Obojętny]
+Muszę przyznać, że liczyłem na więcej. Płonne jednak okazały się moje nadzieje. Oto twoja nagroda.
+
+[System: AddItem_Gold_Standard]
+[System: Quest [UNDER_CITY_MONSTER] ustawiony na: Completed]
+
+GRACZ_09
+[Anim: Macha ręką na pożegnanie]
+Dzięki. Bywaj.
+
+-> END DIALOGUE
+
+// ==========================================
+// WĘZEŁ: NODE_ELMAR_RESULT_LONG (Ścieżka długa)
+// ==========================================
+
+ELMAR_11
+[Anim: Drapie się po brodzie. Wyraz twarzy: Rozpromieniony]
+Dlaczego? Co było w niej tak niezwykłego?
+
+GRACZ_10
+Niedawno złożyła jaja. Nim jednak potomstwo się wykluło, ktoś roztrzaskał skorupy.
+
+ELMAR_12
+[Anim: Chodzi nerwowo po pokoju]
+Lecz to wciąż nie tłumaczy selekcji ofiar. Zginęli tylko mężczyźni.
+
+GRACZ_11
+Tłumaczy. Katakan jest wysoko rozwiniętym wampirem. Odczuwa niemal ludzkie emocje. Nienawiść lub miłość.
+
+ELMAR_13
+[Anim: Uderza pięścią w dłoń, jakby coś zrozumiał]
+Ach, pojmuję! Więc, to mężczyźni je rozbili. Stąd awers wobec samców. A, to śpiewanie i tulenie dzieci? To prawda?
+
+GRACZ_12
+Niewykluczone. Prawdopodobnie używała iluzji i niespełnioną matczyną miłość przelewała na maluchy.
+
+ELMAR_14
+[Anim: Ociera łzy chusteczką. Wyraz twarzy: Poruszony, ze łzami w oczach]
+To doprawdy smutne. Czy... zabiłeś ją?
+
+GRACZ_13
+Musiałem.
+
+ELMAR_15
+[Anim: Wręcza graczowi duży mieszek pieniędzy. Wyraz twarzy: Smutny]
+Rozumiem. Oto twoja nagroda. Bywaj &lt;&lt;imię gracza&gt;&gt;.
+
+[System: AddItem_Gold_Bonus]
+[System: Quest [UNDER_CITY_MONSTER] ustawiony na: Completed]
+
+GRACZ_14
+Bywaj.
+
+-> END DIALOGUE
+</pre>

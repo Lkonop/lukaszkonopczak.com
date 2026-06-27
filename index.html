@@ -7,12 +7,29 @@
     <meta name="description"
         content="Łukasz Konopczak - polski autor fantasy. Poznaj Śpiew Stali - epicką opowieść o mitologii japońskiej, honorze i zemście.">
     <title>Łukasz Konopczak - Autor Fantasy</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231b1e23'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23c9a66b' text-anchor='middle' font-weight='bold'%3EŁK%3C/text%3E%3C/svg%3E">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="pattern-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Łukasz Konopczak</a>
+            <button class="hamburger" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Strona Główna</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -216,6 +233,26 @@
     <footer>
         <p>&copy; 2025 Łukasz Konopczak. Wszelkie prawa zastrzeżone.</p>
     </footer>
+
+    <script>
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+            hamburger.setAttribute('aria-expanded', !expanded);
+            navLinks.classList.toggle('active');
+            document.body.classList.toggle('nav-open');
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('nav-open');
+            });
+        });
+    </script>
 </body>
 
 </html>
