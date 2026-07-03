@@ -659,6 +659,7 @@ body {
     color: var(--accent-copper);
     font-weight: normal;
     opacity: 0.8;
+    margin-left: auto;
 }
 
 .accordion-icon {
@@ -848,6 +849,182 @@ pre.script::before {
 
     .portfolio-section:first-of-type {
         padding-top: 2rem;
+    }
+}
+
+/* ===== Showcase Visual (inside accordions) ===== */
+.showcase-visual {
+    margin-bottom: 1.25rem;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.showcase-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+
+.showcase-img.doc-preview {
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.play-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem 2rem;
+    background: linear-gradient(135deg, var(--accent-copper), var(--accent-ruby));
+    color: var(--bg-primary);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(201, 166, 107, 0.3);
+}
+
+.play-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(201, 166, 107, 0.5);
+}
+
+.quest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.tag {
+    padding: 0.3rem 0.75rem;
+    background: rgba(201, 166, 107, 0.1);
+    border: 1px solid rgba(201, 166, 107, 0.25);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--accent-copper);
+    letter-spacing: 0.3px;
+}
+
+/* ===== Game Design Document Cards ===== */
+.doc-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.doc-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    background: var(--bg-darker);
+    border-radius: 12px;
+    border: 1px solid rgba(201, 166, 107, 0.12);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.doc-card:hover {
+    border-color: rgba(201, 166, 107, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.doc-card-icon {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201, 166, 107, 0.1);
+    border-radius: 12px;
+    font-size: 1.5rem;
+    color: var(--accent-copper);
+}
+
+.doc-card-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.doc-card-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.doc-format {
+    font-size: 0.8rem;
+    color: var(--accent-copper);
+    opacity: 0.7;
+}
+
+/* ===== Certificates ===== */
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.cert-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-darker);
+    border-radius: 12px;
+    border: 1px solid rgba(201, 166, 107, 0.12);
+    transition: border-color 0.3s ease;
+}
+
+.cert-card:hover {
+    border-color: rgba(201, 166, 107, 0.3);
+}
+
+.cert-card-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201, 166, 107, 0.1);
+    border-radius: 10px;
+    font-size: 1.3rem;
+    color: var(--accent-copper);
+}
+
+.cert-card-content h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.cert-card-content p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .quest-card-info {
+        padding: 1.25rem 1.25rem 1.5rem;
+    }
+
+    .doc-cards {
+        grid-template-columns: 1fr;
     }
 }
 
