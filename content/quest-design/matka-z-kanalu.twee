@@ -1,0 +1,782 @@
+:: StoryTitle
+Matka z kanału
+
+
+:: StoryData
+{
+  "ifid": "2CADA3D7-E049-433B-9C42-B4AF3A9D5D47",
+  "format": "Harlowe",
+  "format-version": "3.3.9",
+  "start": "MENU",
+  "zoom": 1
+}
+
+
+:: CHOICE-HUB-01 {"position":"1500,1300","size":"100,100"}
+(if: $quest_inquiry is true)[
+$npc: To jak będzie?]
+(else:)[
+$npc: Istotnie. Wiesz, że sowicie zapłacę. To jak będzie?]
+
+[[Zapłacisz sowicie. I dorzucisz jeszcze premię za pralnię|NODE-QUEST-ACCEPTED]]
+---
+[[Bywaj|NODE-LAB-FREEROAM]]
+
+
+
+:: FIGHT-SEWERS-LEFT-CHOICE-HUB_01 {"position":"2100,925","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+Pojawiają się dwa utopce
+
+[[Zaatakuj młynkiem|NODE-FIGHT-SEWERS-LEFT-02]]
+
+(link: "Zaatakuj lewego")[\
+    (set: $leftOponent to true)\
+    (go-to: "NODE-FIGHT-SEWERS-LEFT-EXTENDED")\
+]
+
+(link: "Zaatakuj prawego")[\
+    (set: $rightOponent to true)\
+    (go-to: "NODE-FIGHT-SEWERS-LEFT-EXTENDED")\
+]
+
+
+:: GAME-START {"position":"1650,525","size":"100,100"}
+(set: $health to 100)
+$player wchodzi do laboratorium uczonego $npc$genitive. Ciemne pomieszczenie rozświetla wymyślna aparatura z kolorowymi płynami. Z sufitu zwisają liczne pęki roślin, a w dużym zbiorniku pływają ryby. Naukowiec stoi pochylony nad jednym z licznych stołów.
+
+</style>
+<img src="https://staticdelivery.nexusmods.com/images/952/775380-1653919261.png" class="fixed-img">
+</div>
+
+[[Rozpocznij rozmowę |NODE-ELMAR-START]]
+[[Rozejrzyj się po laboratorium |NODE-LAB-FREEROAM]]
+
+
+:: GEAR-SELECTION {"position":"1650,375","size":"100,100"}
+Przed Tobą leżą trzy przygotowane pancerze. Wybierz ten, który najlepiej pasuje do Twojego stylu walki:
+
+(link: "Zbroja Wilka")[\
+    (set: $armor_name to "Zbroja Wilka")\
+    (set: $armor to 5)\
+    (set: $agility to 15)\
+    (set: $attack to 15)\
+    (set: $money to 5)\
+    (go-to: "GAME-START")\
+]
+
+(link: "Zbroja Gryfa")[\
+    (set: $armor_name to "Zbroja Gryfa")\
+    (set: $armor to 15)\
+    (set: $agility to 5)\
+    (set: $attack to 20)\
+    (set: $money to 3)\
+    (go-to: "GAME-START")\
+]
+
+(link: "Zbroja Kota")[\
+    (set: $armor_name to "Zbroja Kota")\
+    (set: $armor to 5)\
+    (set: $agility to 20)\
+    (set: $attack to 8)\
+    (set: $money to 10)\
+    (go-to: "GAME-START")\
+]
+
+
+:: MENU {"position":"1500,525","size":"100,100"}
+(set: $player to "Wiedźmin")
+(set: $npc to "Elmar")
+(set: $genitive to "a")
+(set: $dative to "owi")
+(set: $accusative to "a")
+(set: $instrumental to "em")
+(set: $locative to "ie")
+
+
+(align:"=><=")[<span style="font-size: 2em; font-weight: bold;">[[Rozpocznij grę|GEAR-SELECTION]]</span>]
+
+<style>
+body, tw-story, #passages {
+    background: radial-gradient(circle, #161f18 0%, #080a08 100%) !important;
+    background-color: #080a08 !important;
+    color: #ded1b8 !important; /* Kolor starego papieru/pergaminu */
+    font-family: "Georgia", serif !important;
+}
+</style>
+
+
+:: NODE-BODY-INSPECTION {"position":"1975,1175","size":"100,100"}
+Ciało jest zmasakrowane. Trudno określić płeć. Jedynie ubranie wskazuje na to, że był to mężczyzna. Dłoń ofiary jest zaciśnięta
+
+[[Otwórz dłoń|NODE-OPEN-HAND]]
+[[Zostaw ciało i idź dalej|NODE-FIGHT-PREPARATION]]
+
+
+:: NODE-BOSS-BLOCK {"position":"2900,1225","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+
+(if: $block is 0)[
+  $player blokuje cios mieczem. Siła uderzenia przesuwa go po mokrej posadzce. Wykorzystuje impet i kontratakuje cięciem od dextera.
+  (set: $monster_health to $monster_health - $attack)
+]
+(if: $block is 1)[
+  $player paruje pazury mieczem. Iskry sypią się z ostrza. W tym samym ruchu ripostuje sinistrem, raniąc wampira w bok.
+  (set: $monster_health to $monster_health - 15)
+]
+(if: $block is 2)[
+  $player przyjmuje atak na gardę. Wampir odsłania się na ułamek sekundy. Wiedźmin wbija miecz po rękojeść.
+  (set: $monster_health to $monster_health - 80)
+]
+
+(link: "Kontynuuj")[
+  (if: $monster_health <= 0)[
+    (go-to: "NODE-BOSS-DEFEATED")
+  ](else-if: $block is 0)[
+    (go-to: "NODE-BOSS-FIGHT_02")
+  ](else-if: $block is 1)[
+    (go-to: "NODE-BOSS-FIGHT_03")
+  ](else:)[
+    (go-to: "NODE-BOSS-DEFEATED")
+  ]
+]
+
+
+:: NODE-BOSS-DEFEATED {"position":"3175,500","size":"100,100"}
+(if: $black_blood_defeat is true)[$monster pada na ziemi i ryczy w agonii. Eliksir $black_blood_elixir zażyty wcześniej zatyka żyły potwora. Po chwili kona]
+(else-if: $fled is true)[$monster nie żyje]
+(else-if: $trophy is true)[$player chowa głowę potwora do sakwy]
+(else:)[$monster pada pokonany]
+
+(if: $trophy is false)[
+	(link: "Zbierz trofeum")[
+		(set: $trophy to true)
+		(go-to: "NODE-BOSS-DEFEATED")
+	]
+](else:)[
+	[[Zbadaj leże|NODE-INSPECT-LAIR]]
+]
+
+
+:: NODE-BOSS-DODGE {"position":"2625,1225","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+
+(if: $dodge is 0)[
+  $player uskakuje w bok. Pazury wampira świszczą tuż obok twarzy. Wiedźmin wykorzystuje otwartą gardę i tnie od dołu.
+  (set: $monster_health to $monster_health - $attack)
+]
+(if: $dodge is 1)[
+  $player przewraca się w przód, unikając szponów. Wstając, zakręca młynek, raniąc wampira w nogi.
+  (set: $monster_health to $monster_health - 15)
+]
+(if: $dodge is 2)[
+  $player nurkuje pod rozpostarte skrzydła wampira. Obraca się i wbija miecz w odsłonięty grzbiet potwora.
+  (set: $monster_health to $monster_health - 80)
+]
+
+(link: "Kontynuuj")[
+  (if: $monster_health <= 0)[
+    (go-to: "NODE-BOSS-DEFEATED")
+  ](else-if: $dodge is 0)[
+    (go-to: "NODE-BOSS-FIGHT_02")
+  ](else-if: $dodge is 1)[
+    (go-to: "NODE-BOSS-FIGHT_03")
+  ](else:)[
+    (go-to: "NODE-BOSS-DEFEATED")
+  ]
+]
+
+
+:: NODE-BOSS-FIGHT {"position":"2750,1050","size":"100,100"}
+(set: $monster to "Katakan")
+(set: $monster_health to 100)
+(set: $trophy to false)
+(set: $round to 0)
+(set: $dodge to 0)
+(set: $block to 0)
+(set: $damage to false)
+(set: $hurt to false)
+(set: $fled to false)
+(set: $black_blood_defeat to false)
+
+$player wkracza do leża. Ze sklepienia zeskakuje przeciwnik. Mierzy bohatera czerwonymi ślepami i wydaje z siebie ryk, szczerząc przy tym ostre kły. Choć przygarbiony, góruje nad $player$instrumental
+
+//"Zaraza, to $monster"// - myśli $player
+
+Wampir rzuca się na $player$genitive
+
+---
+(set: $counter to 5)
+{
+(live: 1s)[
+	(set: $counter to it - 1)
+	(if: $counter > 0)[
+		''Pozostały czas: $counter sek.''
+	]
+	(else:)[
+		(stop:) <!-- KLUCZOWE: zatrzymujemy ten zegar! -->
+		(set: $health to it - 25)
+		(go-to: "NODE-BOSS-HIT-TIMER")
+	]
+]
+}
+
+---
+(link: "Unik w bok")[(stop:)(go-to: "NODE-BOSS-DODGE")]
+(link: "Zablokuj atak mieczem")[(stop:)(go-to: "NODE-BOSS-BLOCK")]
+
+
+:: NODE-BOSS-FIGHT-DEATH {"position":"2900,1050","size":"100,100"}
+(set: $health to 100)
+(set: $monster_health to 100)
+(set: $dodge to 0)
+(set: $block to 0)
+(set: $damage to false)
+(set: $hurt to false)
+
+$player zginął w walce.
+
+[[Wczytaj ostatni checkpoint|NODE-BOSS-FIGHT]]
+
+
+:: NODE-BOSS-FIGHT_02 {"position":"2750,1375","size":"100,100"}
+(set: $monster_health to it - 10)
+(align:"<==")+(box:"=X")[HP: $health]
+(if: $monster_health <= 0)[(go-to: "NODE-BOSS-DEFEATED")]
+
+$player tnie na odlew. Końcówka srebrnego miecza rani wampira powierzchownie, mimo to, rozwściecza go.  $monster atakuje z góry.
+
+
+
+(set: $counter to 10)
+{
+(live: 1s)[
+	(set: $counter to it - 1)
+	(if: $counter > 0)[
+		''Pozostały czas: $counter sek.''
+	]
+	(else:)[
+		(stop:) <!-- KLUCZOWE: zatrzymujemy ten zegar! -->
+		(set: $health to it - 25)
+		(go-to: "NODE-BOSS-HIT-TIMER_02")
+	]
+]
+}
+
+(set: $dodge to 1)
+(set: $block to 1)
+
+---
+(link: "Przewrót w przód")[ (stop:) (go-to: "NODE-BOSS-DODGE")]
+(link: "Zablokuj atak mieczem")[ (stop:) (go-to: "NODE-BOSS-BLOCK") ]
+
+
+:: NODE-BOSS-FIGHT_03 {"position":"2750,1650","size":"100,100"}
+(if: $monster_health <= 0)[(go-to:"NODE-BOSS-DEFEATED")]
+
+(if:$hurt is false)[
+
+(link: "Zaatakuj fintą")[
+(set: $monster_health to it - $attack)
+(set: $hurt to true)
+(go-to: "NODE-BOSS-FIGHT_03")]
+
+$monster zamachuje się pazurami:
+(link: "Unik w bok")[(set: $dodge to 2)(go-to: "NODE-BOSS-DODGE")]
+(link: "Zablokuj atak mieczem")[(set: $block to 2)(go-to: "NODE-BOSS-BLOCK")]
+
+]
+(else:)[ $monster próbuje uciekać
+
+(set: $counter to 5)
+	{
+	(live: 1s)[
+		(set: $counter to it - 1)
+		(if: $counter > 0)[
+			''Pozostały czas na schywtanie potwora: $counter sek.''
+		]
+		(else:)[
+			(stop:)
+			(go-to: "NODE-BOSS-FLED") 
+		]
+	]
+	}
+    
+---    
+
+(link: "Dogoń i dobij")[(stop:)(set: $monster_health to 0)(go-to: "NODE-BOSS-DEFEATED")]
+]
+
+
+:: NODE-BOSS-FLED {"position":"3050,1650","size":"100,100"}
+$player podąża śladami krwi. $monster nie jest w stanie latać, to pewne. Wyostrzone zmysły łowcy wychwytują dźwięk. $player wbiega w kolejną odnogę korytarza. Potwór umiera, nawet nie próbuje się bronić.
+
+(set: $fled to true)
+
+[[Dokończ dzieła|NODE-BOSS-DEFEATED]]
+[[Zaczekaj aż potwór skona|NODE-BOSS-DEFEATED]]
+
+
+:: NODE-BOSS-HIT-TIMER {"position":"2750,1225","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+(if: $health <= 0)[
+	<!-- Gracz nie żyje -> resetujemy zdrowie i wracamy na start -->
+	(set: $health to 100)
+	(go-to: "NODE-BOSS-FIGHT-DEATH")
+]
+(else:)[
+	<!-- Gracz przeżył -> pokazujemy opis i nowy timer -->
+	Ostre pazury rozdzierają kaftan, raniąc brzuch $player$genitive. Doszło do krwotoku.
+	
+	(set: $counter to 10)
+	{
+	(live: 1s)[
+		(set: $counter to it - 1)
+		(if: $counter > 0)[
+			''Pozostały czas na kontratak: $counter sek.''
+		]
+		(else:)[
+			(stop:) <!-- Zatrzymujemy drugi zegar -->
+			(set: $health to it - 25)
+			(go-to: "NODE-BOSS-HIT-TIMER") <!-- Jeśli znowu nie kliknie, wraca tutaj i znowu dostaje baty -->
+		]
+	]
+	}
+
+	(link: "Kontratakuj!")[ (stop:) (go-to: "NODE-BOSS-FIGHT_02") ]
+]
+
+
+:: NODE-BOSS-HIT-TIMER_02 {"position":"2750,1500","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+(if: $health <= 0)[
+	<!-- Gracz nie żyje -> resetujemy zdrowie i wracamy na start -->
+	(set: $health to 100)
+	(go-to: "NODE-BOSS-FIGHT-DEATH")
+]
+(else:)[
+    (if: $damage is false)[
+  $monster wbija zębiska w $player$genitive i wysysa jego krew. 
+  (if: $black_blood_active is true)[
+    (set: $black_blood_defeat to true)
+    (go-to: "NODE-BOSS-DEFEATED")
+  ]
+  (set: $counter to 10)
+  {
+  (live: 1s)[
+    (set: $counter to it - 1)
+    (if: $counter > 0)[
+      ''Pozostały czas na kontratak: $counter sek.''
+    ]
+    (else:)[
+      (stop:)
+      (set: $health to it - 25)
+      (set: $damage to true)
+      (go-to: "NODE-BOSS-HIT-TIMER_02")
+    ]
+  ]
+  }
+  (link: "Kontratakuj!")[ (stop:) (go-to: "NODE-BOSS-FIGHT_03") ]
+]
+(else:)[
+  $monster zahacza bohatera pazurem
+  (set: $health to it - 15)
+  (go-to: "NODE-BOSS-FIGHT_03")
+]
+
+
+:: NODE-ELMAR-01 {"position":"1750,925","size":"100,100"}
+$npc: Ludzie gadają, że coś mieszka pod miastem. Że żyje w kanałach. To coś nocami wydaje dziwne odgłosy, coś jakby kwilenie połączone z płaczem.
+
+[[Ludzie gadają różne głupoty|NODE-ELMAR_02]]
+---
+[[Bywaj|NODE-LAB-FREEROAM]]
+
+
+:: NODE-ELMAR-START {"position":"1750,675","size":"100,100"}
+- Witaj, Elmarze. Posłałeś po mnie. Masz dla mnie jakąś robotę?
+
+{[}Coś cicho wybucha. Naukowiec unosi osmoloną twarz znad eksperymentu{]}
+
+- Tak, w rzeczy samej.
+
+
+
+[[O co chodzi?|NODE-ELMAR-01]]
+---
+[[Bywaj|NODE-LAB-FREEROAM]] 
+
+
+:: NODE-ELMAR_02 {"position":"1750,1050","size":"100,100"}
+$npc: Trudno się nie zgodzić. Ale jest coś jeszcze: podobno słyszą to tylko mężczyźni oraz dzieci. A teraz najciekawsze: Niektóre dzieciaki twierdzą, że były w kanałach i tam mieszka piękna pani, która śpiewa i tuli do snu.
+
+[[Interesujące...|NODE-ELMAR_03]]
+
+
+:: NODE-ELMAR_03 {"position":"1750,1175","size":"100,100"}
+$npc: Interesujące, a jakże. Poza tym wiesz jak jest z empiryzmem poznawczym ludzi. Mężczyznom nie straszny smród jeśli na końcu czeka na nich księżniczka
+
+
+[[Tak. Znam to. Któryś wrócił z nagrodą?|NODE-ELMAR_04]]
+
+
+:: NODE-ELMAR_04 {"position":"1750,1300","size":"100,100"}
+$npc: Żaden. Ale wiem, że dzieciaki wracają. Zawsze.
+
+
+
+[[Czyli chcesz, żebym w imię empiryzmu poznawczego, taplał się w gównie?|CHOICE-HUB-01]]
+
+
+:: NODE-ENTER-SEWERS {"position":"2200,675","size":"100,100"}
+Kanał jest ciemny i zawilgotniony. Woda sięga $player$dative do kostek. Do jego uszu dociera echo kropel wody uderzające w tafle pomyj.  $player musi dokonać wyboru:
+
+[[Idź w lewo|NODE-SEWERS-GO-LEFT-01]]
+[[Idź w prawo|NODE-SEWERS-GO-RIGHT-01]]
+
+
+:: NODE-FIGHT-PREPARATION {"position":"2250,1350","size":"100,100"}
+$player znajduje szczątki obozu. Magiczny medalion zaczyna drgać coraz silniej. Za kratą dostrzega ruch. Tam czeka na niego oponent. To ostatni moment żeby się przygotować do walki
+
+[[Przygotuj się|NODE-FIGHT-PREPARATION_02]]
+[[Wejdź do leża potwora|NODE-BOSS-FIGHT]]
+
+
+:: NODE-FIGHT-PREPARATION_02 {"position":"2250,1575","size":"100,100"}
+$player medytuje. Nie wie jaki przeciwnik czeka dalej. Magiczny medalion wciąż drga.
+(set: $monster_health to 100)
+
+(align:"<==")+(box:"=X")[HP: $health]
+
+''Twoje obecne statystyki bojowe:''
+* Pancerz: $armor ($armor_name)
+* Atak: $attack
+* Zwinność: $agility
+
+---
+''DOSTĘPNE MIKSTURY I OLEJE W EKWIPUNKU:''
+
+(if: $swallow_bought is true)[
+    * (link: "Wypij: Jaskółka")[\
+        (set: $health to (min: 100, $health + 40))\
+        (set: $swallow_bought to false)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $thunderbolt_bought is true)[
+    * (link: "Wypij: Grom")[\
+        (set: $attack to $attack + 10)\
+        (set: $thunderbolt_bought to false)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $black_blood_bought is true)[
+    * (link: "Wypij: Czarna Krew")[\
+        (set: $black_blood_bought to false)\
+        (set: $black_blood_active to true)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $shrike is true)[
+    * (link: "Wypij: Dzierzba")[\
+        (set: $attack to $attack + 5)\
+        (set: $agility to $agility + 5)\
+        (set: $shrike to false)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $vampireOil is true)[
+    * (link: "Nałóż na ostrze: Olej przeciw wampirom")[\
+        (set: $attack to $attack + 15)\
+        (set: $vampireOil to false)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $whetblade is true)[
+    * (link: "Użyj na ostrzu: Ostrzałka")[\
+        (set: $attack to $attack + 5)\
+        (set: $whetblade to false)\
+        (go-to: "NODE-FIGHT-PREPARATION")\
+    ]
+]
+
+(if: $swallow_bought is false and $thunderbolt_bought is false and $black_blood_bought is false and $shrike is false and $vampireOil is false and $whetblade is false)[
+    Nie masz w kieszeniach żadnych eliksirów, olejów ani narzędzi do użycia._
+]
+
+[[Wkrocz do leża potwora|NODE-BOSS-FIGHT]]
+
+
+:: NODE-FIGHT-SEWERS-LEFT-02 {"position":"1975,1050","size":"100,100"}
+(align:"<==")+(box:"=X")[HP: $health]
+Szybkie cięcie pozbawia utopce głów. $player nie odnosi żadnych obrażeń. Potwory żerował na ofierze.
+
+[[Podejdź do ciała|NODE-BODY-INSPECTION]]
+[[Idź dalej|NODE-FIGHT-PREPARATION]]
+
+
+
+:: NODE-FIGHT-SEWERS-LEFT-EXTENDED {"position":"2250,925","size":"100,100"}
+{
+(if: $leftOponent)[
+    (set: $health to $health - 30)
+](else:)[
+    (set: $health to $health - 10)
+]
+} (align:"<==")+(box:"=X")[HP: $health]
+$player doskakuje do pierwszego przeciwnika. \
+(if: $leftOponent)[
+Szybkim cięciem pozbawia go głowy, nie ma jednak czasu na obronę przed drugim. Pomimo szybkiego piruetu ostry pazur rozdrapuje prawą rękę.
+]\
+(else:)[
+Skośnym cięciem pozbawia go połowy torsu. Drugi Utopiec rzuca się na $player$genative. Szybki krok w bok pozwala uniknąć pazurów, natomiast $player podkręca kostkę na nierówności. $player uderza w tył przeciwnika, pozbawiając go głowy.
+]
+
+[[Kontynuuj|NODE-FIGHT-SEWERS-LEFT-EXTENDED_02]]
+
+
+:: NODE-FIGHT-SEWERS-LEFT-EXTENDED_02 {"position":"2250,1075","size":"100,100"}
+(if: $shrike is true)[[[Idź dalej|NODE-FIGHT-PREPARATION]]]
+(else:)[ $player dostrzega ''fiolkę''
+(link: "Podnieś")[\
+    (set: $shrike to true)\
+    (go-to: "NODE-FIGHT-SEWERS-LEFT-EXTENDED_02")\
+]]
+
+
+
+:: NODE-FINISH-GAME {"position":"3525,1000","size":"100,100"}
+(align:"<==")+(box:"=XX=")[Dziękuję za ukończenie mini-gry]
+
+Zachęcam do przejścia gry ponownie, tym razem z innymi wyborami
+
+[[Zagraj ponownie|MENU]]
+
+Zapraszam również na moją stronę: 
+(text-colour:lime)[https://lukaszkonopczak.com/portfolio.html]
+
+
+:: NODE-FINISH-QUEST {"position":"3525,625","size":"100,100"}
+ - Potworem grasującym w kanałach był $monster. To wampir rozumny. Jego główną bronią jest iluzja. Potrafi sprawić, że obserwator uwierzy w to co się widzi. Stąd opowieści dzieci o miłej pani z kanałów. Musiał przybierać postać kobiety. Właściwie to musiała, bo to była samica.
+ 
+ - Ale po co miałaby to robić?
+ 
+ [[Odpowiedz|NODE-FINISH-QUEST_02]]
+
+
+:: NODE-FINISH-QUEST-FINAL {"position":"3525,875","size":"100,100"}
+Oczy Elmara szklą się
+
+- To... nie tego się spodziewałem. Ja... muszę przemyśleć parę rzeczy. Tutaj jest twoja nagroda. Zostaw mnie, proszę.
+
+(set: $money to 250)
+
+[[Opuść laboratorium|NODE-FINISH-GAME]]
+
+
+:: NODE-FINISH-QUEST_02 {"position":"3525,750","size":"100,100"}
+- Po zbadaniu leża znalazłem puste gniazdo. Nie było w nim młodych
+- Zatem ktoś je zabił - stwierdza rzeczowo Elmar
+- Najpewniej mężczyzna. Kiedy to się stało $monster postanowił wytępić ich wszystkich kusząc wszystkich iluzją i śpiewem.
+- No ale to jednak potwór. Mężczyźni zginęli, a dzieci przeżyły. Dla takiego wampira nie powinno być różnicy.
+- Potwory to przede wszystkim zwierzęta. A ten konkretny, był matką. Straciła młode więc z tej rozpaczy chciała ukarać odpowiedzialnych, ale jeszcze bardziej pragnęła przytulić dziecko. Nawet jesli nie było jej.
+
+---
+
+[[Kontynuj|NODE-FINISH-QUEST-FINAL]]
+
+
+:: NODE-FLUIDS-EQUIPMENT {"position":"1350,825","size":"100,100"}
+$player przygląda się ''dekoktom''. Zastanawia go dlaczego poziom płynu jest równy pomimo różnej szerokości naczyń
+
+[[Rozejrzyj się |NODE-LAB-FREEROAM]] 
+
+
+:: NODE-GO-BACK-TO-ELMAR {"position":"3525,500","size":"100,100"}
+ - Witaj, wi... uch, ale cuchniesz $player$locative - Elmar zakrywa nos chustczką
+ - Kanały to jednak nie jest perfumiarnia - odpiera $player
+ - Tak, tak. Oczywiście. Opowiadaj
+ 
+ [[Opowiedz o potworze|NODE-FINISH-QUEST]]
+
+
+:: NODE-GO-SHOPPING {"position":"2475,525","size":"100,100"}
+(set: $herbalist to "Zielarz")
+
+(if: $after_purchase_dialog is false)[
+    $player wchodzi do $herbalist$genitive. Zapach utensyliów i mikstur draźni nozdrza. Za kontuarem stoi starszy jegomość we fioletowej szacie. Jego wzrok utkwiony jest w księdze rozłożonej na pulpicie.
+
+    — W czym mogę pomóc?
+](else:)[
+    — Coś jeszcze?
+]
+
+---
+''DOSTĘPNE ELIKSIRY:'' (Masz obecnie: $money szt. złota)
+
+<!-- ZAKUP JASKÓŁKI -->
+(link: "Kup: Jaskółka (3 szt. złota)")[\
+    (set: $cost to 3)\
+    (if: $money >= $cost)[\
+        (set: $money to $money - $cost)\
+        (set: $swallow_bought to true)\
+        (set: $after_purchase_dialog to true)\
+        (go-to: "NODE-GO-SHOPPING")\
+    ]\
+    (else:)[\
+        (replace: ?komunikat)[Masz za mało złota na Jaskółkę!]
+    ]\
+]
+
+<!-- ZAKUP GROMU -->
+ (link: "Kup: Grom (3 szt. złota)")[\
+    (set: $cost to 3)\
+    (if: $money >= $cost)[\
+        (set: $money to $money - $cost)\
+        (set: $thunderbolt_bought to true)\
+        (set: $after_purchase_dialog to true)\
+        (go-to: "NODE-GO-SHOPPING")\
+    ]\
+    (else:)[\
+        (replace: ?komunikat)[Masz za mało złota na Grom!]
+    ]\
+]
+
+<!-- ZAKUP CZARNEJ KRWI -->
+(link: "Kup: Czarna Krew (2 szt. złota)")[\
+    (set: $cost to 2)\
+    (if: $money >= $cost)[\
+        (set: $money to $money - $cost)\
+        (set: $black_blood_elixir to "Czarna krew")\
+        (set: $black_blood_bought to true)\
+        (set: $after_purchase_dialog to true)\
+        (go-to: "NODE-GO-SHOPPING")\
+    ]\
+    (else:)[\
+        (replace: ?komunikat)[Masz za mało złota na Czarną Krew!]
+    ]\
+]
+
+|komunikat)[ ]
+
+(link: "Odejdź od kontuaru")[(go-to: "NODE-LEAVE-LAB")]
+
+
+:: NODE-INSPECT-LAIR {"position":"3275,625","size":"100,100"}
+Leże pełne jest ludzkich rzeczy. Większość poszarpana i zakrwawiona. Wszystkie jednak musiały należeć do mężczyzn. Żadne z nich nie mogło być noszone przez dziecko. $player dostrzega gniazdo
+
+---
+
+[[Zajrzyj do gniazda|NODE-INSPECT-LAIR_02]]
+
+
+:: NODE-INSPECT-LAIR_02 {"position":"3275,750","size":"100,100"}
+Puste. 
+
+//- Zaraza... młodych nie ma. Zatem nie żyją. A więc o to chodziło...//
+
+[[Opuść kanały|NODE-GO-BACK-TO-ELMAR]]
+
+
+:: NODE-LAB-FREEROAM {"position":"1525,675","size":"100,100"}
+$player rozgląda się po pomieszczeniu. Jego uwagę przykuwa kilka przedmiotów.
+
+</style>
+<img src="https://cdna.artstation.com/p/assets/images/images/004/925/802/large/marcin-michalski-tower-lab.jpg?1487252547" class="fixed-img">
+</div>
+
+
+[[Naczynia połączone z różowym płynem |NODE-FLUIDS-EQUIPMENT]]
+[[Manuskrypt z dziwnymi znakami |NODE-MANUSCRIPT-READING]]
+(if: $quest_approval  is true)[
+(set: $quest_inquiry to true)
+[[Rozpocznij rozmowę|CHOICE-HUB-01]]]
+(else:)[[[Rozmowa z $npc |NODE-ELMAR-START]]]
+
+
+:: NODE-LEAVE-LAB {"position":"2200,525","size":"100,100"}
+(set: $after_purchase_dialog to false)
+
+$player wychodzi na ruchliwą ulicę. Mimo, że słońce jest wysoko i zsyła żar z nieba większość wozów i przechodniów grzęźnie w błocie.
+
+[[Mam wszystko czego potrzebuję|NODE-ENTER-SEWERS]]
+[[Brakuje mi kilku przedmiotów|NODE-GO-SHOPPING]]
+
+
+:: NODE-MANUSCRIPT-READING {"position":"1525,825","size":"100,100"}
+Treść manuskryptu:
+
+"„Aen n'aep Łukasz Konopczak cáilm n'ess teith. Ess caelm evall aen d'yaebl. Gwyn bleid n'aen evall, vaen caelm n'aep dh'oine ess minne d'en aen’baeth.”
+
+[[Rozejrzyj się |NODE-LAB-FREEROAM]] 
+
+
+:: NODE-OPEN-HAND {"position":"1975,1300","size":"100,100"}
+$player znajduje ''ostrzałkę do miecza''
+
+(set: $whetblade to true)
+
+[[Idź dalej|NODE-FIGHT-PREPARATION]]
+
+
+:: NODE-OPEN-SACK {"position":"2475,1050","size":"100,100"}
+(set: $vampireOil to true)
+
+Wygląda na olej, który nakłada się na miecz. $player w zapachu wyczuwa składniki na ''olej przeciw wampirom''. Może okazać się przydatny.
+
+[[Idź dalej|NODE-FIGHT-PREPARATION]]
+
+
+:: NODE-QUEST-ACCEPTED {"position":"1750,1450","size":"100,100"}
+(set: $quest_accepted to true)
+(set: $quest_approval to true)
+
+[[Wyjdź z laboratorium|NODE-LEAVE-LAB]]
+
+
+:: NODE-SEWERS-GO-LEFT-01 {"position":"2100,800","size":"100,100"}
+Coś mąci wodę. $player słyszy syk
+
+[[Dobyj miecza|FIGHT-SEWERS-LEFT-CHOICE-HUB_01]]
+[[Ucieknij|NODE-ENTER-SEWERS]]
+
+
+:: NODE-SEWERS-GO-RIGHT-01 {"position":"2475,900","size":"100,100"}
+Medalion $player$genative drga. Coś magicznego znajduje się w pobliżu. $player dostrzega sakwę.
+
+[[Zajrzyj do środka|NODE-OPEN-SACK]]
+[[Idź dalej|NODE-FIGHT-PREPARATION]]
+
+
+:: StoryScript [script]
+$(document).on('keyup', function(e) {
+    if (e.key === "Escape" || e.keyCode === 27) {
+        // Sprawdzamy, czy nie jesteśmy już w menu, żeby uniknąć pętli
+        if (typeof Engine !== 'undefined' && Engine.goTo) {
+            Engine.goTo("MENU");
+        } else if (typeof Harlowe !== 'undefined') {
+            // Bezpieczne wywołanie przejścia dla nowszych wersji Harlowe
+            var passage = "";
+            $.event.trigger({type: "updatepassage", passage: passage});
+        } else {
+            // Uniwersalna metoda oparta na makrze Twine (symulacja kliknięcia)
+            var link = document.querySelector('.go-to-menu');
+            if (link) { link.click(); }
+        }
+    }
+});
+
+:: StoryStylesheet [stylesheet]
+.enchantment-link:hover, tw-link:hover {
+ color: orange;
+}
+
+.fixed-img {
+    width: 1000px;
+    height: auto; /* auto zachowa proporcje obrazka */
+}
