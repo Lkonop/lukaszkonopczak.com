@@ -402,10 +402,6 @@
         // Accordion + lazy load content
         const cache = {};
 
-        function setHeight(el, height) {
-            el.style.maxHeight = height;
-        }
-
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.closest('.accordion-item');
@@ -413,16 +409,13 @@
                 const inner = content.querySelector('.accordion-content-inner');
                 const isExpanded = header.getAttribute('aria-expanded') === 'true';
 
-                // Close siblings in the same accordion
                 const accordion = header.closest('.accordion');
                 if (accordion) {
                     accordion.querySelectorAll('.accordion-header').forEach(h => {
                         if (h !== header) {
                             h.setAttribute('aria-expanded', 'false');
                             h.classList.remove('active');
-                            const c = h.nextElementSibling;
-                            setHeight(c, '0px');
-                            c.classList.remove('show');
+                            h.nextElementSibling.classList.remove('show');
                         }
                     });
                 }
@@ -430,13 +423,11 @@
                 if (isExpanded) {
                     header.setAttribute('aria-expanded', 'false');
                     header.classList.remove('active');
-                    setHeight(content, '0px');
                     content.classList.remove('show');
                 } else {
                     header.setAttribute('aria-expanded', 'true');
                     header.classList.add('active');
                     content.classList.add('show');
-                    setHeight(content, inner.scrollHeight + 'px');
 
                     const src = item.dataset.src;
                     if (src && !cache[src]) {
@@ -445,18 +436,12 @@
                             .then(html => {
                                 cache[src] = html;
                                 inner.innerHTML = html;
-                                requestAnimationFrame(() => {
-                                    setHeight(content, inner.scrollHeight + 'px');
-                                });
                             })
                             .catch(() => {
                                 inner.innerHTML = '<p style="color: var(--accent-ruby);">Błąd ładowania treści.</p>';
                             });
                     } else if (src && cache[src]) {
                         inner.innerHTML = cache[src];
-                        requestAnimationFrame(() => {
-                            setHeight(content, inner.scrollHeight + 'px');
-                        });
                     }
                 }
             });
