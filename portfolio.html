@@ -52,7 +52,7 @@
                             <div class="showcase-visual">
                                 <img src="content/quest-design/twine-structure.png"
                                     alt="Matka z kanału – struktura questów w Twine"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                                 <div class="showcase-buttons">
                                     <a href="content/quest-design/matka-z-kanalu.html" target="_blank"
                                         rel="noopener noreferrer" class="play-button">
@@ -101,7 +101,7 @@
                             <div class="showcase-visual">
                                 <img src="content/game-design/Chant of Steel GDD v2.0.pdf.png"
                                     alt="Chant of Steel – Game Design Document"
-                                    class="showcase-img doc-preview" loading="lazy">
+                                    class="showcase-img doc-preview">
                                 <a href="https://drive.google.com/file/d/1AzZG7z3-9xmwzlftma-Q9vJYOYw8UFZi/view?usp=drive_link"
                                     target="_blank" rel="noopener noreferrer" class="play-button">
                                     <i class="fas fa-external-link-alt"></i> Otwórz dokument
@@ -121,7 +121,7 @@
                             <div class="showcase-visual">
                                 <img src="content/game-design/Chant of Steel Pitch Deck v2.0.pdf.png"
                                     alt="Chant of Steel – Pitch Deck"
-                                    class="showcase-img doc-preview" loading="lazy">
+                                    class="showcase-img doc-preview">
                                 <a href="https://drive.google.com/file/d/1UzlEpNfeS_keKupqrN4NNV9yD6OChUby/view?usp=drive_link"
                                     target="_blank" rel="noopener noreferrer" class="play-button">
                                     <i class="fas fa-external-link-alt"></i> Otwórz dokument
@@ -150,7 +150,7 @@
                             <div class="showcase-visual">
                                 <img src="content/certyfikaty/EpicGamesCert.pdf.png"
                                     alt="Epic Games – Introduction to Game Design"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                             <div class="showcase-visual">
                                 <img src="content/certyfikaty/GoogleCybersecurity.pdf.png"
                                     alt="Google Cybersecurity Professional Certificate"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                             </div>
                         </div>
                     </div>
@@ -180,7 +180,7 @@
                             <div class="showcase-visual">
                                 <img src="content/certyfikaty/Coursera NJJ5ANVRFH2R.pdf.png"
                                     alt="Google Cloud – Generative AI Leader"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                             </div>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                             <div class="showcase-visual">
                                 <img src="content/certyfikaty/Coursera GQYSP8BUIK19.pdf.png"
                                     alt="Google AI Essentials"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                             </div>
                         </div>
                     </div>
@@ -210,7 +210,7 @@
                             <div class="showcase-visual">
                                 <img src="content/certyfikaty/Coursera EJCJ9LRVVN2X.pdf.png"
                                     alt="Google Prompting Essentials"
-                                    class="showcase-img" loading="lazy">
+                                    class="showcase-img">
                             </div>
                         </div>
                     </div>
@@ -402,6 +402,40 @@
         // Accordion + lazy load content
         const cache = {};
 
+        function collapseAccordion(header) {
+            const content = header.nextElementSibling;
+            header.setAttribute('aria-expanded', 'false');
+            header.classList.remove('active');
+            // Fix explicit height (from auto) so the transition to 0 animates.
+            content.style.height = content.scrollHeight + 'px';
+            content.offsetHeight; // force reflow
+            content.classList.remove('show');
+            content.style.height = '0px';
+        }
+
+        function expandAccordion(header) {
+            const content = header.nextElementSibling;
+            header.setAttribute('aria-expanded', 'true');
+            header.classList.add('active');
+            content.classList.add('show');
+            content.style.height = content.scrollHeight + 'px';
+            // After the open animation, switch to auto so late-loading images
+            // or fetched text never get clipped (Safari-safe). We use both
+            // transitionend and a timeout fallback in case the event doesn't fire.
+            let done = false;
+            const finish = () => {
+                if (done) return;
+                done = true;
+                content.removeEventListener('transitionend', onEnd);
+                if (header.getAttribute('aria-expanded') === 'true') {
+                    content.style.height = 'auto';
+                }
+            };
+            const onEnd = (e) => { if (e.propertyName === 'height') finish(); };
+            content.addEventListener('transitionend', onEnd);
+            setTimeout(finish, 450);
+        }
+
         document.querySelectorAll('.accordion-header').forEach(header => {
             header.addEventListener('click', () => {
                 const item = header.closest('.accordion-item');
@@ -412,23 +446,15 @@
                 const accordion = header.closest('.accordion');
                 if (accordion) {
                     accordion.querySelectorAll('.accordion-header').forEach(h => {
-                        if (h !== header) {
-                            h.setAttribute('aria-expanded', 'false');
-                            h.classList.remove('active');
-                            h.nextElementSibling.classList.remove('show');
+                        if (h !== header && h.getAttribute('aria-expanded') === 'true') {
+                            collapseAccordion(h);
                         }
                     });
                 }
 
                 if (isExpanded) {
-                    header.setAttribute('aria-expanded', 'false');
-                    header.classList.remove('active');
-                    content.classList.remove('show');
+                    collapseAccordion(header);
                 } else {
-                    header.setAttribute('aria-expanded', 'true');
-                    header.classList.add('active');
-                    content.classList.add('show');
-
                     const src = item.dataset.src;
                     if (src && !cache[src]) {
                         fetch(src)
@@ -436,6 +462,10 @@
                             .then(html => {
                                 cache[src] = html;
                                 inner.innerHTML = html;
+                                // Re-sync height in case the accordion is still open.
+                                if (header.getAttribute('aria-expanded') === 'true' && content.style.height !== 'auto') {
+                                    content.style.height = content.scrollHeight + 'px';
+                                }
                             })
                             .catch(() => {
                                 inner.innerHTML = '<p style="color: var(--accent-ruby);">Błąd ładowania treści.</p>';
@@ -443,6 +473,7 @@
                     } else if (src && cache[src]) {
                         inner.innerHTML = cache[src];
                     }
+                    expandAccordion(header);
                 }
             });
         });
