@@ -1,0 +1,96 @@
+<p class="scene-context"><strong>Context:</strong> We've taken a contract on harpies terrorising a nearby village. We track them by dropped trinkets and feathers. At some point the trail goes cold &ndash; but we spot a peasant.</p>
+
+<pre class="script">
+// ==========================================
+// NODE: NODE_PEASANT_START
+// ==========================================
+
+PEASANT_01
+[Anim: Holds a bottle. Sways. Hums a tune | Expression: Vacant]
+(Hums under his breath, ignoring his surroundings)
+
+PLAYER_01
+[Anim: Points a finger at the peasant | Expression: Narrowed eyes]
+Hey, you! Don't you know there's a monster prowling around here?
+
+PEASANT_02
+[Anim: Points at himself | Expression: Confused]
+Wha? A m-m-monster?
+
+PLAYER_02
+[Anim: Folds arms | Expression: Stern]
+Yes. A harpy. Have you seen it, maybe?
+
+PEASANT_03
+[Anim: Snorts air through his nose | Expression: Concentrating]
+A har... wha?
+
+PLAYER_03
+[Anim: Lowers arms | Expression: Resigned]
+A harpy. A flying beast. Seen it?
+
+PEASANT_04
+[Anim: Shakes the empty flask | Expression: Grinning]
+Beats me, m'lord. Seein' I seen, but the bottle here's gone dry.
+
+[CHOICE_HUB_01] // Player picks one option
+
+OPTION 1: [Hand over a bottle of liquor]
+   [Condition: Player_HasItem_Vodka == True]
+   -> GOTO NODE_VODKA_HANDED
+
+OPTION 2: [Threaten] "You know what an enema is?!"
+   -> GOTO NODE_THREAT
+
+OPTION 3: [End conversation] "Be seeing you."
+   -> END DIALOGUE
+
+// ==========================================
+// NODE: NODE_VODKA_HANDED (Bribe path)
+// ==========================================
+
+[System: RemoveItem_Vodka]
+
+PEASANT_05
+[Anim: Eyes light up. Grabs the flask, takes a swig, staggers | Expression: Delighted]
+Now that's the good stuff! Przemko, m'lord and benefactor, at yer service.
+
+PLAYER_04
+So &ndash; did you see this harpy or not?
+
+PEASANT_06
+[Anim: Hiccups, stares glassily]
+An' what's it look like, eh?
+
+PLAYER_05
+Broad wings, sharp talons, long fangs, makes a shrieking sound.
+
+PEASANT_07
+[Anim: Cackles, points a hand in a direction, barely keeping balance | Expression: Amused]
+That's my old lady to a tee! But aye, I seen summat like that in the sky. Went off that way, over yonder.
+
+[System: Map update: Added marker [HARPY_NEST]]
+-> END DIALOGUE
+
+// ==========================================
+// NODE: NODE_THREAT (Intimidation path)
+// ==========================================
+
+PLAYER_06
+[Anim: Steps forward, gestures at the bottle | Expression: Ruthless]
+You know what an enema is? If not, take a good look at that bottle and think of one place it really shouldn't end up.
+
+PEASANT_08
+[Anim: Stares in terror at the flask, glances down, sobs and hiccups, clasps hands as if in prayer | Expression: Terrified]
+No! M'lord, please. Don't hurt me. I'll help, I swear. What's it look like?
+
+PLAYER_07
+Broad wings, sharp talons, long fangs, makes a shrieking sound.
+
+PEASANT_09
+[Anim: Points a hand in a direction and loses his balance | Expression: Struck by realisation]
+That must've been the harpy! Aye, off that way it flew!
+
+[System: Map update: Added marker [HARPY_NEST]]
+-> END DIALOGUE
+</pre>

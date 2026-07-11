@@ -463,8 +463,37 @@ footer {
     display: flex;
     gap: 2rem;
     list-style: none;
-    margin: 0;
+    margin: 0 0 0 auto;
     padding: 0;
+}
+
+.lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: 1.75rem;
+    font-family: 'Georgia', 'Garamond', serif;
+    font-size: 0.9rem;
+}
+
+.lang-switch a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.lang-switch a:hover {
+    color: var(--accent-copper);
+}
+
+.lang-switch a.active {
+    color: var(--accent-copper);
+    font-weight: bold;
+}
+
+.lang-switch .sep {
+    color: rgba(201, 166, 107, 0.4);
 }
 
 .nav-links a {
@@ -812,6 +841,13 @@ pre.script::before {
         display: flex;
         padding: 8px;
         margin-right: -4px;
+        order: 3;
+    }
+
+    .lang-switch {
+        order: 2;
+        margin-left: auto;
+        margin-right: 1.25rem;
     }
 
     .nav-links {
