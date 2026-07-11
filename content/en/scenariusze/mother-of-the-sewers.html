@@ -1,0 +1,154 @@
+<p class="scene-context"><strong>Context:</strong> While sitting in a tavern, we're summoned by a scholar. We arrive at a laboratory full of elaborate apparatus. The scholar is engrossed in work on some small component.</p>
+
+<pre class="script">
+// ==========================================
+// NODE: NODE_ELMAR_START
+// ==========================================
+
+PLAYER_01
+[Anim: Enters the room, stops before the table]
+Greetings, Elmar.
+
+ELMAR_01
+[Anim: Doesn't look up from his work, tinkers with the apparatus]
+Greetings, &lt;&lt;player_name&gt;&gt;.
+
+PLAYER_02
+[Anim: Looks around the laboratory]
+You called. Got some work for me?
+
+ELMAR_02
+[Anim: Still focused on the table]
+But of course. I wouldn't trouble you if I could manage it myself.
+
+PLAYER_03
+[Anim: Rests his hands on his belt]
+What do you need?
+
+[System: Trigger FX: Small explosion, smoke across Elmar's face]
+
+ELMAR_03
+[Anim: Turns sharply, sighs | Expression: Smudged with soot]
+Direct as ever. You see, people say something lives beneath the city. That it makes strange noises at night &ndash; something like weeping mixed with a whimper.
+
+PLAYER_04
+[Anim: Shakes his head indulgently]
+People say all kinds of nonsense.
+
+ELMAR_04
+[Anim: Smiles]
+Hard to disagree. And yet there's something more curious. Apparently only men and children can hear it. Women don't react at all. But that's not all. The children claim a kind lady sits down there, cradles them and sings them to sleep.
+
+PLAYER_05
+[Anim: Narrows his eyes | Expression: Intrigued]
+Interesting...
+
+ELMAR_05
+[Anim: Raises an index finger | Expression: Professorial]
+Indeed. Cognitive empiricism has led the populace into the depths of the sewers. Warriors and children alike.
+
+ELMAR_06
+[Anim: Gestures dynamically with his hands]
+The paradox of this phenomenon is that only the younger ones managed to return, and the mortalism of the former stands in contradiction to the absurdism of the latter. Apriorism excludes such a possibility.
+
+PLAYER_06
+[Anim: Spreads his hands helplessly]
+So, a priori speaking, I'm to go wading through filth after some woman?
+
+ELMAR_07
+[Anim: Sighs, winks]
+Oh, &lt;&lt;player_name&gt;&gt;, how you do reduce everything. You know I'll pay handsomely.
+
+PLAYER_07
+[Anim: Nods | Expression: Resigned]
+Fine. But you're paying for the laundry too!
+
+[System: Quest log update: Quest [UNDER_CITY_MONSTER] set to: Active]
+[System: Exit dialogue]
+-> END DIALOGUE
+
+// ==========================================
+// NODE: NODE_ELMAR_RETURN (Return after completing the task)
+// ==========================================
+
+ELMAR_08
+[Anim: Rushes out from behind the desk | Expression: Excited]
+Did you find something fascinating down there? Tell me!
+
+[CHOICE_HUB_ELMAR_RETURN]
+
+OPTION 1: [Give only the facts] "A vampire. A katakan."
+   -> GOTO NODE_ELMAR_RESULT_SHORT
+
+OPTION 2: [Give the details of the investigation] "A female katakan. A remarkable case."
+   [Condition: Player_Investigated_Illusion == TRUE]
+   -> GOTO NODE_ELMAR_RESULT_LONG
+
+// ==========================================
+// NODE: NODE_ELMAR_RESULT_SHORT (Short path)
+// ==========================================
+
+ELMAR_09
+[Anim: Shrugs | Expression: Disappointed]
+That's it?
+
+PLAYER_08
+That's it. Killed the monster.
+
+ELMAR_10
+[Anim: Opens a drawer, pulls out a coin pouch | Expression: Indifferent]
+I must admit I'd hoped for more. My hopes, however, proved vain. Here's your reward.
+
+[System: AddItem_Gold_Standard]
+[System: Quest [UNDER_CITY_MONSTER] set to: Completed]
+
+PLAYER_09
+[Anim: Waves goodbye]
+Thanks. Be seeing you.
+
+-> END DIALOGUE
+
+// ==========================================
+// NODE: NODE_ELMAR_RESULT_LONG (Long path)
+// ==========================================
+
+ELMAR_11
+[Anim: Scratches his beard | Expression: Beaming]
+Why? What was so remarkable about her?
+
+PLAYER_10
+She'd laid eggs not long ago. But before the brood could hatch, someone smashed the shells.
+
+ELMAR_12
+[Anim: Paces the room nervously]
+But that still doesn't explain the selection of victims. Only men died.
+
+PLAYER_11
+It does. A katakan is a highly evolved vampire. It feels almost human emotions. Hatred, or love.
+
+ELMAR_13
+[Anim: Strikes his fist into his palm, as if he's understood something]
+Ah, I see! So it was men who destroyed them. Hence the aversion to males. And the singing, the cradling of children &ndash; that's true?
+
+PLAYER_12
+Not impossible. She likely used illusion, pouring her unfulfilled maternal love onto the little ones.
+
+ELMAR_14
+[Anim: Wipes away tears with a handkerchief | Expression: Moved, eyes welling up]
+That is truly sad. Did... did you kill her?
+
+PLAYER_13
+I had to.
+
+ELMAR_15
+[Anim: Hands the player a large coin pouch | Expression: Sorrowful]
+I understand. Here's your reward. Be seeing you, &lt;&lt;player_name&gt;&gt;.
+
+[System: AddItem_Gold_Bonus]
+[System: Quest [UNDER_CITY_MONSTER] set to: Completed]
+
+PLAYER_14
+Be seeing you.
+
+-> END DIALOGUE
+</pre>

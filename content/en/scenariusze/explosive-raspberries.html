@@ -1,0 +1,82 @@
+<p class="scene-context"><strong>Context:</strong> A witcher is sought to solve the death of a villager and a string of missing objects. On site we examine the corpse, its belly torn open. The witcher's trembling medallion points to magic at work. After a short search, we find a house spirit lurking nearby.</p>
+
+<pre class="script">
+// ==========================================
+// NODE: NODE_SPIRIT_START
+// ==========================================
+
+PLAYER_01
+[Anim: Crouches | Expression: Friendly]
+Hey there, little one. What's your name?
+
+SPIRIT_01
+[Anim: Spreads his arms, tries to make himself bigger | Expression: Annoyed]
+I'm not little at all! I'm very big already. I'm big Mieszko.
+
+PLAYER_02
+[Anim: Nods | Expression: Calm]
+All right, big Mieszko &ndash; do you know anything about the death of the man from that hut over there?
+
+SPIRIT_02
+[Anim: Draws a round belly with his hands, laughs | Expression: Indifferent]
+Maybe I do. So what? Am I not allowed to know? Because I, for one, know he was an awful thief. And a glutton. And he always wheezed so funny.
+
+PLAYER_03
+[Anim: Crosses arms over his chest | Expression: Suspicious]
+A thief? Something tells me it was you doing the stealing.
+
+SPIRIT_03
+[Anim: Stamps his feet, clenches his fists | Expression: Furious]
+No! Not true. He was the thief, not me! He started it! He kept eating my raspberries! I wanted him to stop, but he just kept eating them!
+
+SPIRIT_04
+[Anim: Shrugs | Expression: Indifferent]
+So I borrowed a few things from the village too.
+
+PLAYER_04
+[Anim: Gestures with a hand | Expression: Thoughtful]
+But he didn't stop stealing, did he? So you decided to punish him for it. What did you do with the raspberries?
+
+SPIRIT_05
+[Anim: Throws his hands up, laughs | Expression: Proud]
+I enchanted them. When that glutton picked a whole basket, stuffed himself with them &ndash; then boom! The raspberries blew up in his little tummy.
+
+[CHOICE_HUB_SPIRIT] // Player picks one option
+
+OPTION 1: [Attack] "You acted cruelly. I can't let this go."
+   -> GOTO NODE_SPIRIT_ATTACK
+
+OPTION 2: [Scold / Punish] "You acted cruelly. Some punishment must find you for this."
+   -> GOTO NODE_SPIRIT_PUNISH
+
+// ==========================================
+// NODE: NODE_SPIRIT_ATTACK
+// ==========================================
+
+[System: Disable dialogue mode]
+[System: Start combat with NPC: House Spirit Mieszko]
+-> END DIALOGUE
+
+// ==========================================
+// NODE: NODE_SPIRIT_PUNISH
+// ==========================================
+
+SPIRIT_06
+[Anim: Throws his head back, puffs out his chest, shouts and cries | Expression: Offended]
+And why?! He was the thief, not me! You're mean and ugly! And anyway, I'm not scared of you!
+
+PLAYER_05
+[Anim: Points a finger | Expression: Severe]
+If you ever harm a human again, I'll tell the whole world to burn burdock in their homes. Is that what you want?
+
+SPIRIT_07
+[Anim: Begs, clasps his hands, grimaces and cries | Expression: Terrified]
+Oh, no, no! Anything but that. Burdock, yuck! I won't do it again, I promise! I promise!
+
+PLAYER_06
+[Anim: Waves a hand dismissively | Expression: Mild]
+I should hope so. No more mischief.
+
+[System: Set NPC disposition to neutral. The house spirit flees]
+-> END DIALOGUE
+</pre>
